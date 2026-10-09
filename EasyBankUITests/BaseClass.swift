@@ -1,35 +1,26 @@
-//
-//  BaseClass.swift
-//  EasyBankUITests
-//
-//  Created by lmosakhlishvili on 10.02.25.
-//
-
 import XCTest
 
 class BaseClass: XCTestCase {
+
     private(set) var app = XCUIApplication()
-    
+
     override func setUpWithError() throws {
-        app = XCUIApplication()
+        try super.setUpWithError()
+
         continueAfterFailure = false
-    }
-    
-    override func setUp() {
-        super.setUp()
-        continueAfterFailure = true
-        launchApp()
-        app.tap()
-    }
-    
-    fileprivate func launchApp() {
+
         app = XCUIApplication()
         app.launchArguments.append("UI-Testing")
         app.launch()
     }
-    
+
+    override func tearDownWithError() throws {
+        app.terminate()
+        try super.tearDownWithError()
+    }
+
     func relaunchApp() {
-        super.tearDown()
-        launchApp()
+        app.terminate()
+        app.launch()
     }
 }
